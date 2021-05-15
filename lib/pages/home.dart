@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../providers/post_provider.dart';
 import '../widgets/app_bar_shape_border.dart';
 import '../widgets/post_card.dart';
+import '../models/post.dart';
+import '../pages/post_detail.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key, this.title}) : super(key: key);
@@ -14,10 +16,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _firstLoading = true;
+
   @override
   void initState() {
     super.initState();
-    context.read<PostProvider>().fetchPosts();
+    loadPosts();
+  }
+
+  void loadPosts() {
+    context
+        .read<PostProvider>()
+        .fetchPosts()
+        .then(
+          (value) => setState(() {
+            _firstLoading = false;
+          }),
+        )
+        .catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error.message)),
+      );
+    });
+  }
+
+  void onTapPost(Post post) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PostDetails(post: post)),
+    );
   }
 
   @override
@@ -30,16 +57,9 @@ class _HomePageState extends State<HomePage> {
           widget.title!,
           style: TextStyle(color: Colors.purple),
         ),
-        // elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.white,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.vertical(
-        //     bottom: Radius.circular(30),
-        //   ),
-        // ),
-        toolbarHeight: 50,
-        shape: new AppBarShapeBorder(),
+        shape: AppBarShapeBorder(),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -50,20 +70,31 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         child: RefreshIndicator(
-          onRefresh: () async {
+          onRefresh: () {
             // add some delay for better UX
-            await Future.delayed(Duration(milliseconds: 500));
-            return postProvider.fetchPosts();
+            return Future.delayed(
+              Duration(milliseconds: 500),
+              loadPosts,
+            );
           },
-          child: Scrollbar(
-            thickness: 5,
-            child: ListView(
-              padding: EdgeInsets.only(top: 5),
-              children: postProvider.postList
-                  .map((post) => PostCard(post: post))
-                  .toList(),
-            ),
-          ),
+          child: _firstLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Scrollbar(
+                  thickness: 5,
+                  child: ListView(
+                    padding: EdgeInsets.only(top: 5),
+                    children: postProvider.postList
+                        .map(
+                          (post) => PostCard(
+                            post: post,
+                            onTap: () => onTapPost(post),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
         ),
       ),
     );

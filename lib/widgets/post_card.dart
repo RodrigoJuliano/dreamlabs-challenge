@@ -1,12 +1,12 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import '../models/post.dart';
 
 class PostCard extends StatelessWidget {
-  PostCard({required this.post}) : super(key: ValueKey(post.id));
+  PostCard({required this.post, required this.onTap})
+      : super(key: ValueKey(post.id));
 
   final Post post;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +18,10 @@ class PostCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       color: Color.fromRGBO(255, 255, 255, 210),
-      // color: Colors.purple,
       child: Stack(
-        // fit: StackFit.expand,
         children: [
-          // Positioned.fill(
-          //   child: Container(
-          //     color: Color.fromRGBO(255, 255, 255, 200),
-          //     child: BackdropFilter(
-          //       filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-          //       child: Container(
-          //         color: Colors.transparent,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
           InkWell(
-            onTap: () {},
+            onTap: onTap,
             child: Padding(
               padding: EdgeInsets.all(15),
               child: Wrap(
