@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './widgets/post_card.dart';
+import './models/post.dart';
 
 void main() {
   runApp(MyApp());
@@ -99,6 +101,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            PostCard(
+              post: Post(
+                id: 0,
+                title:
+                    "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+                body:
+                    "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+              ),
             ),
           ],
         ),
