@@ -1,6 +1,10 @@
-# dreamlabs_challenge
+# _Dreamlabs Challenge
 
-App desafio para vaga de estágio na _dreamlabs
+This app is a challenge for internship vacancy at _Dreamlabs
+
+## Screenshots
+
+<img src="screenshots/Screenshot_2021-05-16-06-41-16.png" height="400">
 
 ## Getting Started
 
