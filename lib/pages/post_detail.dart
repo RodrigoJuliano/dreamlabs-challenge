@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/post.dart';
+import '../widgets/gradient_background.dart';
 
 class PostDetails extends StatelessWidget {
   PostDetails({required this.post}) : super(key: ValueKey(post.id));
@@ -8,23 +9,13 @@ class PostDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.purple, Colors.deepPurple],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+      body: GradientBackground(
         child: Scrollbar(
           thickness: 5,
           child: ListView(
             children: [
               AppBar(
-                title: Text(
-                  'Post',
-                  // style: TextStyle(color: Colors.purple),
-                ),
+                title: Text('Post'),
                 elevation: 0,
                 centerTitle: true,
                 backgroundColor: Colors.transparent,

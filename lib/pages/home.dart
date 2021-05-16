@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/post_provider.dart';
 import '../widgets/app_bar_shape_border.dart';
+import '../widgets/gradient_background.dart';
 import '../widgets/post_card.dart';
 import '../models/post.dart';
 import '../pages/post_detail.dart';
@@ -61,14 +62,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         shape: AppBarShapeBorder(),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.purple, Colors.deepPurple],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+      body: GradientBackground(
         child: RefreshIndicator(
           onRefresh: () {
             // add some delay for better UX
@@ -79,7 +73,9 @@ class _HomePageState extends State<HomePage> {
           },
           child: _firstLoading
               ? Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
                 )
               : Scrollbar(
                   thickness: 5,
