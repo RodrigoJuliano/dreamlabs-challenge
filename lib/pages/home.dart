@@ -79,16 +79,16 @@ class _HomePageState extends State<HomePage> {
                 )
               : Scrollbar(
                   thickness: 5,
-                  child: ListView(
+                  child: ListView.builder(
                     padding: EdgeInsets.only(top: 5),
-                    children: postProvider.postList
-                        .map(
-                          (post) => PostCard(
-                            post: post,
-                            onTap: () => onTapPost(post),
-                          ),
-                        )
-                        .toList(),
+                    itemBuilder: (context, index) {
+                      final post = postProvider.postList[index];
+                      return PostCard(
+                        post: post,
+                        onTap: () => onTapPost(post),
+                      );
+                    },
+                    itemCount: postProvider.postList.length,
                   ),
                 ),
         ),
